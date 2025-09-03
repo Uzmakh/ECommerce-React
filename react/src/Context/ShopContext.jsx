@@ -4,7 +4,7 @@ import all_product from '../assets/all_product'
 // eslint-disable-next-line react-refresh/only-export-components
 export const ShopContext = createContext(null);
 
-// * creatting an empty cart,
+// * creating an empty cart,
 const getDefaultCart = () => {
   let cart = {};
   for (let index = 0; index < all_product.length+1; index++) {
@@ -15,14 +15,17 @@ const getDefaultCart = () => {
 
 const ShopContextPovider = (props) => {
   const [cartItems, setCartItems] = useState(getDefaultCart());
-  const contextValue = { all_product, cartItems };
-
+ 
   // console.log(cartItems);
-  const addToCart = () => {
-    
+  const addToCart = (itemId) => {
+    setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
+    console.log(cartItems);
+  }
+  const removeFromCart = (itemId) => {
+    setCartItems((prev) => ({...prev,[itemId]:prev[itemId]-1 }))
   }
 
- 
+  const contextValue = { all_product, cartItems, addToCart, removeFromCart };
   return (
     <ShopContext.Provider value={contextValue}>
       {props.children}
